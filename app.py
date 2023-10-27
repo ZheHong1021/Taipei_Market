@@ -8,8 +8,6 @@ from  selenium.webdriver.support.ui  import  WebDriverWait
 from  selenium.webdriver.support  import  expected_conditions  as  EC
 #endregion
 
-# 自動更新chromeDriver
-import chromedriver_autoinstaller
 
 import pymysql
 import time
