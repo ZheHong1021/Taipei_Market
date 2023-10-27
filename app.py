@@ -99,7 +99,8 @@ def Crawler(url):
         
         print(f"✅成功進入頁面...({driver.title})")
 
-            
+        
+        driver.implicitly_wait(5) # 引性等待 => 等待頁面跑完在往下
 
         # 等待出現再開始
         ddl_list = WebDriverWait(driver, 10).until(
