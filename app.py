@@ -78,23 +78,27 @@ def InsertMarketPrice(price, volume, category, date):
     
 def Crawler(url):
     try:
-        try:
-            #region (chromedriver的設定)
-            option = webdriver.ChromeOptions()
-            # 【參考】https://ithelp.ithome.com.tw/articles/10244446
-            option.add_argument("headless") # 不開網頁搜尋
-            option.add_argument('blink-settings=imagesEnabled=false') # 不加載圖片提高效率
-            option.add_argument('--log-level=3') # 這個option可以讓你跟headless時網頁端的console.log說掰掰
-            """下面參數能提升爬蟲穩定性"""
-            option.add_argument('--disable-dev-shm-usage') # 使用共享內存RAM
-            option.add_argument('--disable-gpu') # 規避部分chrome gpu bug
-            #endregion
+        #region (chromedriver的設定)
+        option = webdriver.ChromeOptions()
+        # 【參考】https://ithelp.ithome.com.tw/articles/10244446
+        option.add_argument("headless") # 不開網頁搜尋
+        option.add_argument('blink-settings=imagesEnabled=false') # 不加載圖片提高效率
+        option.add_argument('--log-level=3') # 這個option可以讓你跟headless時網頁端的console.log說掰掰
+        """下面參數能提升爬蟲穩定性"""
+        option.add_argument('--disable-dev-shm-usage') # 使用共享內存RAM
+        option.add_argument('--disable-gpu') # 規避部分chrome gpu bug
+        #endregion
 
-            # driver = webdriver.Chrome(chrome_options=option) #啟動模擬瀏覽器
-            driver = webdriver.Chrome(chromedriver_path, chrome_options=option) #啟動模擬瀏覽器
-            driver.get(url) # 取得網頁代碼
-        except Exception as e:
-            print(f"啟動chromedriver時發生錯誤: {e}")
+        # driver = webdriver.Chrome(chrome_options=option) #啟動模擬瀏覽器
+        driver = webdriver.Chrome(chromedriver_path, chrome_options=option) #啟動模擬瀏覽器
+        driver.get(url) # 取得網頁代碼
+
+        if not driver.title:
+            print(f"📛未成功進入頁面...")
+            pass
+        
+        print(f"✅成功進入頁面...({driver.title})")
+
             
 
         # 等待出現再開始
