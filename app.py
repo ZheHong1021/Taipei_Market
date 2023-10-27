@@ -103,7 +103,7 @@ def Crawler(url):
         driver.implicitly_wait(5) # 引性等待 => 等待頁面跑完在往下
 
         # 等待出現再開始
-        ddl_list = WebDriverWait(driver, 10).until(
+        ddl_list = WebDriverWait(driver, 10, 1).until(
             EC.presence_of_element_located(
                 (By.ID, 'ddl_list')
             )
@@ -114,7 +114,7 @@ def Crawler(url):
         radio_Month.click()
 
 
-        time.sleep(2) # 強制等待 => 等待頁面跑完在往下
+        # time.sleep(2) # 強制等待 => 等待頁面跑完在往下
 
         #region (選擇特定日期
         # year = "112"
@@ -134,7 +134,7 @@ def Crawler(url):
         #endregion
 
         #region 【輸入產品】選擇『類別菜種』 (等待出現再開始)
-        radio_Crop = WebDriverWait(driver, 10).until(
+        radio_Crop = WebDriverWait(driver, 10, 1).until(
             EC.presence_of_element_located(
                 (By.ID, 'rbl_class_1')
             )
@@ -142,7 +142,7 @@ def Crawler(url):
         radio_Crop.click() # 點擊進行下一步查詢
         #endregion
 
-        time.sleep(2) # 強制等待 => 等待頁面跑完在往下
+        # time.sleep(2) # 強制等待 => 等待頁面跑完在往下
 
 
         # 【查詢項目】
@@ -179,7 +179,7 @@ def Crawler(url):
             
             # 當跳出 alert時 => 自動按接受
             # 【參考教學】https://stackoverflow.com/questions/61859356/how-to-click-the-ok-button-within-an-alert-using-python-selenium
-            WebDriverWait(driver, 10).until(EC.alert_is_present()) # 等待查看是否有Alert
+            WebDriverWait(driver, 10, 1).until(EC.alert_is_present()) # 等待查看是否有Alert
             driver.switch_to.alert.accept() # 當Alert出現時，按接受
             #endregion
 
