@@ -114,7 +114,7 @@ def Crawler(url):
         radio_Month.click()
 
 
-        driver.implicitly_wait(5) # 引性等待 => 等待頁面跑完在往下
+        time.sleep(2) # 強制等待 => 等待頁面跑完在往下
 
         #region (選擇特定日期
         # year = "112"
@@ -142,8 +142,7 @@ def Crawler(url):
         radio_Crop.click() # 點擊進行下一步查詢
         #endregion
 
-        # 隱性等待 2秒
-        driver.implicitly_wait(5) 
+        time.sleep(2) # 強制等待 => 等待頁面跑完在往下
 
 
         # 【查詢項目】
@@ -225,8 +224,8 @@ def Crawler(url):
 
     except KeyboardInterrupt:
         print("----(已中斷程式)----")
-        driver.close()
-        driver.quit()
+        # driver.close()
+        # driver.quit()
 
     finally:
         print("----(ChromeDriver已關閉)----")
