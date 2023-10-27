@@ -114,7 +114,6 @@ def Crawler(url):
         radio_Month.click()
 
 
-        # time.sleep(2) # 強制等待 => 等待頁面跑完在往下
 
         #region (選擇特定日期
         # year = "112"
@@ -173,7 +172,12 @@ def Crawler(url):
                 btn_Add.click()
             
             else: # 最後這邊還需要抓水果行情價格(不用選系向 => 直接查詢)
-                select_Category = Select( driver.find_element( By.ID, "ddl_list" ) ) # 要將種類進行切換
+                select_Category = WebDriverWait(driver, 10, 1).until(
+                    EC.presence_of_element_located(
+                        (By.ID, 'list_item')
+                    )
+                )
+                select_Category = Select( select_Category) # 要將種類進行切換
                 select_Category.select_by_visible_text( "水果" ) # 【分類】選擇蔬菜
             #endregion
 
