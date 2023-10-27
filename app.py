@@ -99,8 +99,10 @@ def Crawler(url):
         
         print(f"✅成功進入頁面...({driver.title})")
 
+        # 隐性等待30秒 (只要寫一次即可) => 等頁面渲染完才會抓
+        driver.implicitly_wait(30)
+
         
-        driver.implicitly_wait(5) # 引性等待 => 等待頁面跑完在往下
 
         # 等待出現再開始
         ddl_list = WebDriverWait(driver, 10).until(
@@ -114,7 +116,7 @@ def Crawler(url):
         radio_Month.click()
 
 
-        time.sleep(2) # 強制等待 => 等待頁面跑完在往下
+        # time.sleep(2) # 強制等待 => 等待頁面跑完在往下
 
         #region (選擇特定日期
         # year = "112"
@@ -142,7 +144,7 @@ def Crawler(url):
         radio_Crop.click() # 點擊進行下一步查詢
         #endregion
 
-        time.sleep(2) # 強制等待 => 等待頁面跑完在往下
+        # time.sleep(2) # 強制等待 => 等待頁面跑完在往下
 
 
         # 【查詢項目】
@@ -224,8 +226,6 @@ def Crawler(url):
 
     except KeyboardInterrupt:
         print("----(已中斷程式)----")
-        # driver.close()
-        # driver.quit()
 
     finally:
         print("----(ChromeDriver已關閉)----")
