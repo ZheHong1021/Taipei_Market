@@ -113,6 +113,9 @@ def Crawler(url):
         radio_Month = driver.find_element( By.ID, "rblDateType_2" ) # 【日期別】選擇『月』
         radio_Month.click()
 
+
+        driver.implicitly_wait(5) # 引性等待 => 等待頁面跑完在往下
+
         #region (選擇特定日期
         # year = "112"
         # month = "01"
@@ -140,7 +143,7 @@ def Crawler(url):
         #endregion
 
         # 隱性等待 2秒
-        driver.implicitly_wait(2) 
+        driver.implicitly_wait(5) 
 
 
         # 【查詢項目】
