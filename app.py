@@ -174,7 +174,7 @@ def Crawler(url):
             else: # 最後這邊還需要抓水果行情價格(不用選系向 => 直接查詢)
                 select_Category = WebDriverWait(driver, 10, 1).until(
                     EC.presence_of_element_located(
-                        (By.ID, 'list_item')
+                        (By.ID, 'ddl_list')
                     )
                 )
                 select_Category = Select( select_Category) # 要將種類進行切換
