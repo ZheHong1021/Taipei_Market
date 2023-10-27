@@ -161,7 +161,13 @@ def Crawler(url):
 
             #region 加入作物項目
             if (category != "水果"):
-                select_SearchList = Select( driver.find_element( By.ID, "list_item" ) ) # 【查詢項目】
+                select_SearchList = WebDriverWait(driver, 10, 1).until(
+                    EC.presence_of_element_located(
+                        (By.ID, 'list_item')
+                    )
+                )
+                select_SearchList = Select( select_SearchList ) # 【查詢項目】
+                # select_SearchList = Select( driver.find_element( By.ID, "list_item" ) ) # 【查詢項目】
                 select_SearchList.select_by_visible_text( f"【{code}】{category}" ) # 透過 text去選擇選項 => EX: 【{S}】根莖菜類
                 btn_Add = driver.find_element( By.ID, "btn_add" ) # 點擊『加入按鈕』
                 btn_Add.click()
