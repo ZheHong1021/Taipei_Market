@@ -92,8 +92,8 @@ def Crawler(url):
             option.add_argument('--disable-gpu') # 規避部分chrome gpu bug
             #endregion
 
-            # driver = webdriver.Chrome(chrome_options=option) #啟動模擬瀏覽器
-            driver = webdriver.Chrome(chromedriver_path, chrome_options=option) #啟動模擬瀏覽器
+            driver = webdriver.Chrome(chrome_options=option) #啟動模擬瀏覽器
+            # driver = webdriver.Chrome(chromedriver_path, chrome_options=option) #啟動模擬瀏覽器
             driver.get(url) # 取得網頁代碼
         except Exception as e:
             print(f"啟動chromedriver時發生錯誤: {e}")
@@ -228,8 +228,8 @@ def Crawler(url):
         driver.quit()
 
 if __name__ == "__main__":
-    # chromedriver_autoinstaller.install() # 安裝最適合的版本
-    chromedriver_path = "./chromedriver.exe"
+    chromedriver_autoinstaller.install() # 安裝最適合的版本
+    # chromedriver_path = "./chromedriver.exe"
     url = "http://www.tapmc.com.taipei/tapmc10/PD_Trend.aspx?Q=1" # 爬蟲網址
 
     db = connect_db(
