@@ -80,20 +80,24 @@ def InsertMarketPrice(price, volume, category, date):
     
 def Crawler(url):
     try:
-        #region (chromedriver的設定)
-        option = webdriver.ChromeOptions()
-        # 【參考】https://ithelp.ithome.com.tw/articles/10244446
-        option.add_argument("headless") # 不開網頁搜尋
-        option.add_argument('blink-settings=imagesEnabled=false') # 不加載圖片提高效率
-        option.add_argument('--log-level=3') # 這個option可以讓你跟headless時網頁端的console.log說掰掰
-        """下面參數能提升爬蟲穩定性"""
-        option.add_argument('--disable-dev-shm-usage') # 使用共享內存RAM
-        option.add_argument('--disable-gpu') # 規避部分chrome gpu bug
-        #endregion
+        try:
+            #region (chromedriver的設定)
+            option = webdriver.ChromeOptions()
+            # 【參考】https://ithelp.ithome.com.tw/articles/10244446
+            option.add_argument("headless") # 不開網頁搜尋
+            option.add_argument('blink-settings=imagesEnabled=false') # 不加載圖片提高效率
+            option.add_argument('--log-level=3') # 這個option可以讓你跟headless時網頁端的console.log說掰掰
+            """下面參數能提升爬蟲穩定性"""
+            option.add_argument('--disable-dev-shm-usage') # 使用共享內存RAM
+            option.add_argument('--disable-gpu') # 規避部分chrome gpu bug
+            #endregion
 
-        # driver = webdriver.Chrome(chrome_options=option) #啟動模擬瀏覽器
-        driver = webdriver.Chrome(chromedriver_path, chrome_options=option) #啟動模擬瀏覽器
-        driver.get(url) # 取得網頁代碼
+            # driver = webdriver.Chrome(chrome_options=option) #啟動模擬瀏覽器
+            driver = webdriver.Chrome(chromedriver_path, chrome_options=option) #啟動模擬瀏覽器
+            driver.get(url) # 取得網頁代碼
+        except Exception as e:
+            print(f"啟動chromedriver時發生錯誤: {e}")
+            
 
         # 等待出現再開始
         ddl_list = WebDriverWait(driver, 10).until(
@@ -223,14 +227,11 @@ def Crawler(url):
         driver.close()
         driver.quit()
 
-
 if __name__ == "__main__":
-    
     # chromedriver_autoinstaller.install() # 安裝最適合的版本
     chromedriver_path = "./chromedriver.exe"
     url = "http://www.tapmc.com.taipei/tapmc10/PD_Trend.aspx?Q=1" # 爬蟲網址
 
-    
     db = connect_db(
         host='127.0.0.1',
         user='root',
