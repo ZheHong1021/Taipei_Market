@@ -9,11 +9,34 @@ from  selenium.webdriver.support  import  expected_conditions  as  EC
 #endregion
 
 
-from webdriver_manager.chrome import ChromeDriverManager
-
-
 import pymysql
 import time
+
+import logging
+
+def setup_logger(log_file='app.log'):
+    # 创建一个记录器
+    logger = logging.getLogger('my_logger')
+    logger.setLevel(logging.DEBUG)
+
+    # 创建一个文件处理程序，用于将日志写入文件
+    file_handler = logging.FileHandler(log_file, encoding='utf-8')
+    file_handler.setLevel(logging.DEBUG)
+
+    # 创建一个控制台处理程序，用于在控制台输出日志
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO)
+
+    # 创建一个格式器，用于定义日志消息的格式
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(formatter)
+    console_handler.setFormatter(formatter)
+
+    # 将处理程序添加到记录器
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
+
+    return logger
 
 def connect_db(host, user, pwd, dbname, port):
     try:
@@ -92,13 +115,15 @@ def Crawler(url):
         option.add_argument('--disable-gpu') # 規避部分chrome gpu bug
         #endregion
 
-        # driver = webdriver.Chrome(chrome_options=option) #啟動模擬瀏覽器
-        driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=option) #啟動模擬瀏覽器
-        # driver = webdriver.Chrome(chromedriver_path, chrome_options=option) #啟動模擬瀏覽器
-        driver.get(url) # 取得網頁代碼
+        try:
+            # driver = webdriver.Chrome(chrome_options=option) #啟動模擬瀏覽器
+            driver = webdriver.Chrome(CHROMEDRIVER_PATH, chrome_options=option) #啟動模擬瀏覽器
+            driver.get(url) # 取得網頁代碼
+        except Exception as e:
+            logger.error(f"開啟ChromeDriver發生錯誤: {e}")
 
         if not driver.title:
-            print(f"📛未成功進入頁面...")
+            logger.error(f"📛未成功進入頁面: {e}")
             pass
         
         print(f"✅成功進入頁面...({driver.title})")
@@ -245,8 +270,11 @@ def Crawler(url):
         driver.quit()
 
 if __name__ == "__main__":
+    # 操作日誌
+    logger = setup_logger()
+
     # chromedriver_autoinstaller.install() # 安裝最適合的版本
-    chromedriver_path = "./chromedriver.exe"
+    CHROMEDRIVER_PATH = "./chromedriver.exe"
     url = "http://www.tapmc.com.taipei/tapmc10/PD_Trend.aspx?Q=1" # 爬蟲網址
 
     db = connect_db(
@@ -259,11 +287,13 @@ if __name__ == "__main__":
     
     try:
         Crawler(url)
+        logger.info(f"程式執行成功...")
     except Exception as e :
-        print(f"發生不明錯誤: {e}")
+        logger.error(f"發生不明錯誤: {e}")
 
     finally:
         print("----(程式執行結束，三秒後關閉視窗)----")
+        logger.info("--------------------------")
         time.sleep(3)
 
 
