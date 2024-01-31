@@ -9,6 +9,9 @@ from  selenium.webdriver.support  import  expected_conditions  as  EC
 #endregion
 
 
+from webdriver_manager.chrome import ChromeDriverManager
+
+
 import pymysql
 import time
 
@@ -90,7 +93,8 @@ def Crawler(url):
         #endregion
 
         # driver = webdriver.Chrome(chrome_options=option) #啟動模擬瀏覽器
-        driver = webdriver.Chrome(chromedriver_path, chrome_options=option) #啟動模擬瀏覽器
+        driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=option) #啟動模擬瀏覽器
+        # driver = webdriver.Chrome(chromedriver_path, chrome_options=option) #啟動模擬瀏覽器
         driver.get(url) # 取得網頁代碼
 
         if not driver.title:
