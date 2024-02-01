@@ -108,7 +108,7 @@ def Crawler(url):
         #region (chromedriver的設定)
         option = webdriver.ChromeOptions()
         # 【參考】https://ithelp.ithome.com.tw/articles/10244446
-        # option.add_argument("headless") # 不開網頁搜尋
+        option.add_argument("headless") # 不開網頁搜尋
         option.add_argument('blink-settings=imagesEnabled=false') # 不加載圖片提高效率
         option.add_argument('--log-level=3') # 這個option可以讓你跟headless時網頁端的console.log說掰掰
         """下面參數能提升爬蟲穩定性"""
@@ -164,6 +164,8 @@ def Crawler(url):
         select_Year_E = Select( driver.find_element( By.ID, "ddl_year_e" ) ) # 終點年
         select_Year_E.select_by_visible_text( str(end_year - 1911) ) # 【終點年】選擇
 
+        time.sleep(1.5)
+
         select_Month_E = Select( driver.find_element( By.ID, "ddl_mon_e" ) ) # 終點月
         end_month = f"0{end_month}" if end_month < 10 else str(end_month)
         select_Month_E.select_by_visible_text( end_month ) # 【終點月】選擇
@@ -178,7 +180,7 @@ def Crawler(url):
         radio_Crop.click() # 點擊進行下一步查詢
         #endregion
 
-        # time.sleep(2) # 強制等待 => 等待頁面跑完在往下
+        time.sleep(2) # 強制等待 => 等待頁面跑完在往下
 
 
         # 【查詢項目】
