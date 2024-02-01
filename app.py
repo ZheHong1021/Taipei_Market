@@ -143,7 +143,7 @@ def Crawler(url):
         radio_Month = driver.find_element( By.ID, "rblDateType_2" ) # 【日期別】選擇『月』
         radio_Month.click()
 
-
+        time.sleep(3)
 
         #region (選擇特定日期) => 捕捉近兩個月的資料
         # year = "112"
@@ -164,7 +164,7 @@ def Crawler(url):
         select_Year_E = Select( driver.find_element( By.ID, "ddl_year_e" ) ) # 終點年
         select_Year_E.select_by_visible_text( str(end_year - 1911) ) # 【終點年】選擇
 
-        time.sleep(1.5)
+        time.sleep(3)
 
         select_Month_E = Select( driver.find_element( By.ID, "ddl_mon_e" ) ) # 終點月
         end_month = f"0{end_month}" if end_month < 10 else str(end_month)
