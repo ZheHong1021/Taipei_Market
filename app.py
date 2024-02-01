@@ -11,6 +11,7 @@ from  selenium.webdriver.support  import  expected_conditions  as  EC
 
 import pymysql
 import time
+from datetime import date, datetime
 
 import logging
 
@@ -107,7 +108,7 @@ def Crawler(url):
         #region (chromedriver的設定)
         option = webdriver.ChromeOptions()
         # 【參考】https://ithelp.ithome.com.tw/articles/10244446
-        option.add_argument("headless") # 不開網頁搜尋
+        # option.add_argument("headless") # 不開網頁搜尋
         option.add_argument('blink-settings=imagesEnabled=false') # 不加載圖片提高效率
         option.add_argument('--log-level=3') # 這個option可以讓你跟headless時網頁端的console.log說掰掰
         """下面參數能提升爬蟲穩定性"""
@@ -144,21 +145,28 @@ def Crawler(url):
 
 
 
-        #region (選擇特定日期
+        #region (選擇特定日期) => 捕捉近兩個月的資料
         # year = "112"
         # month = "01"
-        # select_Year_S = Select( driver.find_element( By.ID, "ddl_year_s" ) ) # 起始年
-        # select_Year_S.select_by_visible_text( year ) # 【起始年】選擇
+        today = datetime.now()
+        end_year = today.year
+        end_month = today.month
+        start_year = end_year - 1 if end_month == 1 else end_year # 如果今年已經 1月則，要捕捉到去年12月的資料
+        start_month = 12 if end_month == 1 else end_month - 1
 
-        # select_Month_S = Select( driver.find_element( By.ID, "ddl_mon_s" ) ) # 起始月
-        # select_Month_S.select_by_visible_text( month ) # 【起始月】選擇
+        select_Year_S = Select( driver.find_element( By.ID, "ddl_year_s" ) ) # 起始年
+        select_Year_S.select_by_visible_text( str(start_year - 1911) ) # 【起始年】選擇
 
-        # select_Year_E = Select( driver.find_element( By.ID, "ddl_year_e" ) ) # 終點年
-        # select_Year_E.select_by_visible_text( year ) # 【終點年】選擇
+        select_Month_S = Select( driver.find_element( By.ID, "ddl_mon_s" ) ) # 起始月
+        start_month = f"0{start_month}" if start_month < 10 else str(start_month)
+        select_Month_S.select_by_visible_text( start_month ) # 【起始月】選擇
 
-        # select_Month_E = Select( driver.find_element( By.ID, "ddl_mon_e" ) ) # 終點月
-        # select_Month_E.select_by_visible_text( month ) # 【終點月】選擇
+        select_Year_E = Select( driver.find_element( By.ID, "ddl_year_e" ) ) # 終點年
+        select_Year_E.select_by_visible_text( str(end_year - 1911) ) # 【終點年】選擇
 
+        select_Month_E = Select( driver.find_element( By.ID, "ddl_mon_e" ) ) # 終點月
+        end_month = f"0{end_month}" if end_month < 10 else str(end_month)
+        select_Month_E.select_by_visible_text( end_month ) # 【終點月】選擇
         #endregion
 
         #region 【輸入產品】選擇『類別菜種』 (等待出現再開始)
